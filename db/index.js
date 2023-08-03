@@ -1,5 +1,5 @@
 import sequelize from "./sequelize";
-import Item from "./models/items";
+import Item from "./models/Item";
 import Order_item from "./models/order_items";
 import Order_customer from "./models/order_customers";
 import Item_order_customer from "./models/item_order_customers";

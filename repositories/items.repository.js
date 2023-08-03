@@ -1,4 +1,4 @@
-import Item from "../db/models/items.js";
+import Item from "../db/models/Item";
 
 class ItemRepository {
   static async addItem(name, price, type) {

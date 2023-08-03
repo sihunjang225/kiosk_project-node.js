@@ -1,5 +1,5 @@
 import OrderItem from "../db/models/order_items";
-import Item from "../db/models/items";
+import Item from "../db/models/Item";
 import { orderItemState } from "../constants.js";
 
 class OrderItemRepository {

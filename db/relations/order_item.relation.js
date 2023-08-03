@@ -1,9 +1,9 @@
-import Item from "../models/items";
-import OrderItem from "../models/order_items";
+import Item from "../models/Item";
+import Order_Items from "../models/order_items";
 
 export default () => {
-  OrderItem.belongsTo(Item, {
+  Order_Items.belongsTo(Item, {
     targetKey: "id",
-    foreignKey: "item_id",
+    foreignKey: "Item_id",
   });
 };

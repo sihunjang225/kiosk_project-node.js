@@ -1,9 +1,9 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "../sequelize.js";
 
-class Items extends Model {}
+class Item extends Model {}
 
-Items.init(
+Item.init(
   {
     id: {
       type: DataTypes.BIGINT,
@@ -39,8 +39,8 @@ Items.init(
   },
   {
     sequelize,
-    modelName: "Items",
+    modelName: "Item",
   }
 );
 
-export default Items;
+export default Item;
