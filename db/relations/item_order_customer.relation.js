@@ -9,6 +9,6 @@ export default () => {
   });
   Item_order_customer.hasMany(Order_customer, {
     sourceKey: "id",
-    foreignKey: "order_customers_id",
+    foreignKey: "order_customer_id",
   });
 };

@@ -1,6 +1,5 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "../sequelize.js";
-import ItemOrderCustomer from "./item_order_customers.js";
 
 class OrderCustomer extends Model {}
 

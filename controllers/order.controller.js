@@ -30,8 +30,8 @@ class OrderController {
 
       return res.json({ orderId: order.id, totalOrderPrice });
     } catch (error) {
-      console.error("Error while creating order:", error);
-      return res.status(500).json({ error: "Error while creating order." });
+      console.error("비정상적인 주문입니다:", error);
+      return res.status(500).json({ error: "비정상적인 주문입니다." });
     }
   }
 
@@ -44,7 +44,7 @@ class OrderController {
         // 주문 완료 처리
         const order = await OrderCustomer.findByPk(orderId);
         if (!order) {
-          return res.status(404).json({ error: "Order not found." });
+          return res.status(404).json({ error: "존재하지 않는 주문입니다." });
         }
 
         // 트랜잭션 처리 시작
@@ -68,15 +68,15 @@ class OrderController {
             if (!item) {
               // 해당 상품이 존재하지 않을 경우 롤백
               await t.rollback();
-              return res.status(500).json({ error: "Item not found." });
+              return res
+                .status(500)
+                .json({ error: "존재하지 않는 상품입니다." });
             }
 
             // 주문한 수량보다 현재 수량이 적을 경우 롤백
             if (item.amount < orderItem.amount) {
               await t.rollback();
-              return res
-                .status(400)
-                .json({ error: "Not enough amount in stock." });
+              return res.status(400).json({ error: "재고가 부족합니다." });
             }
 
             // 아이템의 수량 감소 처리
@@ -89,27 +89,25 @@ class OrderController {
           // 트랜잭션 커밋
           await t.commit();
 
-          return res.json({ message: "Order completed successfully." });
+          return res.json({ message: "주문이 정상적으로 완료되었습니다." });
         } catch (error) {
           // 트랜잭션 롤백
           await t.rollback();
-          console.error("Error while completing order:", error);
-          return res
-            .status(500)
-            .json({ error: "Error while completing order." });
+          console.error("비정상적인 주문입니다:", error);
+          return res.status(500).json({ error: "비정상적인 주문입니다." });
         }
       } else if (state === "canceled") {
         // 주문 취소 처리
         const order = await OrderCustomer.findByPk(orderId);
         if (!order) {
-          return res.status(404).json({ error: "Order not found." });
+          return res.status(404).json({ error: "존재하지 않는 주문입니다." });
         }
 
         // 주문이 완료된 상태일 경우 취소 불가능
         if (order.state) {
           return res
             .status(400)
-            .json({ error: "Completed orders cannot be canceled." });
+            .json({ error: "완료된 주문은 취소할 수 없습니다." });
         }
 
         // 트랜잭션 처리 시작
@@ -125,21 +123,19 @@ class OrderController {
           // 트랜잭션 커밋
           await t.commit();
 
-          return res.json({ message: "Order canceled successfully." });
+          return res.json({ message: "주문이 정상적으로 취소되었습니다." });
         } catch (error) {
           // 트랜잭션 롤백
           await t.rollback();
-          console.error("Error while canceling order:", error);
-          return res
-            .status(500)
-            .json({ error: "Error while canceling order." });
+          console.error("비정상적인 주문입니다:", error);
+          return res.status(500).json({ error: "비정상적인 주문입니다." });
         }
       } else {
-        return res.status(400).json({ error: "Invalid state." });
+        return res.status(400).json({ error: "잘못된 접근입니다." });
       }
     } catch (error) {
-      console.error("Error while updating order:", error);
-      return res.status(500).json({ error: "Error while updating order." });
+      console.error("주문을 다시 시도해주십시오:", error);
+      return res.status(500).json({ error: "주문을 다시 시도해주십시오." });
     }
   }
 }

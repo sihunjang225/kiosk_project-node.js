@@ -7,7 +7,8 @@ class OrderItemRepository {
     try {
       // 발주의 기본 상태(default state)는 0
       const orderItem = await OrderItem.create({
-        itemId,
+        item_id: itemId,
+        amount: 1, // 발주 수량을 1로 설정 혹은 다른 값으로 설정 추후 수정
         state: orderItemState.ORDERED,
       });
 
